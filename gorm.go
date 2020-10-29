@@ -5,15 +5,17 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/jellycheng/gosupport/dbutils"
+	"sync"
 )
 
 type MysqlGormInstance struct {
 	mysql  map[string]*gorm.DB
-
+	lock sync.RWMutex
 }
 //公有
 func (mysqlInstance *MysqlGormInstance) GetMysql(dsnKey string) *gorm.DB {
-
+	mysqlInstance.lock.Lock()
+	defer mysqlInstance.lock.Unlock()
 	if d, ok := mysqlInstance.mysql[dsnKey]; ok {
 		return d
 	}
@@ -23,6 +25,8 @@ func (mysqlInstance *MysqlGormInstance) GetMysql(dsnKey string) *gorm.DB {
 
 //私有
 func (mysqlInstance *MysqlGormInstance) registerMysql(dsn string, db *gorm.DB) *gorm.DB {
+	mysqlInstance.lock.Lock()
+	defer mysqlInstance.lock.Unlock()
 	mysqlInstance.mysql[dsn] = db
 	return db
 }
