@@ -2,8 +2,8 @@ package cjsgorm
 
 import (
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jinzhu/gorm"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 	"github.com/jellycheng/gosupport/dbutils"
 	"sync"
 )
@@ -33,23 +33,19 @@ func (mysqlInstance *MysqlGormInstance) registerMysql(dsn string, db *gorm.DB) *
 
 
 var mysqlGormObj = MysqlGormInstance{}
-	//mysqlGormObj.mysql = make(map[string]*gorm.DB)
-
 //实例化
 func NewMysqlGorm(mysqlDsn dbutils.MysqlDsn) *gorm.DB {
 	if mysqlGormObj.mysql == nil{
 		mysqlGormObj.mysql = make(map[string]*gorm.DB)
 	}
-
 	if d := mysqlGormObj.GetMysql(mysqlDsn.Key()); d != nil {
 		return d
 	}
 	//实例化
-	if d, err := gorm.Open("mysql", mysqlDsn.ToDsn()); err != nil {
+	if d, err := gorm.Open(mysql.Open(mysqlDsn.ToDsn()), &gorm.Config{}); err != nil {
 		fmt.Println("connect mysql error: " + err.Error())
 		return nil
 	} else {//注册
-		//registerScopes(d)
 		return mysqlGormObj.registerMysql(mysqlDsn.Key(), d)
 	}
 

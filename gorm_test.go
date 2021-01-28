@@ -22,7 +22,7 @@ type SystemModel struct {
 func (SystemModel)TableName() string {
 	return "t_system"
 }
-
+//go test --run="TestNewMysqlGorm222"
 func TestNewMysqlGorm222(t *testing.T) {
 	//数据库配置
 	mysqlDsnObj := dbutils.NewMysqlDsn(map[string]interface{}{
@@ -31,6 +31,8 @@ func TestNewMysqlGorm222(t *testing.T) {
 		"password":"88888888",
 		"port":3306,
 		"dbname":"db_common",
+		"charset":"utf8mb4",
+		"extparam":"parseTime=True&loc=Local",
 	})
 	//打印dsn串
 	fmt.Println(mysqlDsnObj.ToDsn())

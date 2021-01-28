@@ -8,8 +8,9 @@ gosupport库： https://github.com/jellycheng/gosupport
 
 ## 引用
 ```
-go get -u github.com/jellycheng/cjsgorm
-
+go get -u gopkg.in/jellycheng/cjsgorm.v2
+或者
+GO111MODULE=on GOPROXY=https://goproxy.cn/,direct go get -u gopkg.in/jellycheng/cjsgorm.v2
 ```
 
 ## 使用
