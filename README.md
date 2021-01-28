@@ -1,4 +1,10 @@
 # cjsgorm
+```
+本仓库是对gosupport以及gorm通用能力进行封装，以便更好的适应公司项目复用
+gorm网站： https://gorm.io/zh_CN/
+gosupport库： https://github.com/jellycheng/gosupport
+
+```
 
 ## 引用
 ```
@@ -8,6 +14,7 @@ go get -u github.com/jellycheng/cjsgorm
 
 ## 使用
 ```
+参考gorm_test.go文件
 
 ```
 
