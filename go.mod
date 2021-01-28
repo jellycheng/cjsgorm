@@ -1,4 +1,4 @@
-module github.com/jellycheng/cjsgorm
+module gopkg.in/jellycheng/cjsgorm.v1
 
 go 1.14
 
