@@ -51,3 +51,18 @@ func NewMysqlGorm(mysqlDsn dbutils.MysqlDsn) *gorm.DB {
 
 }
 
+func NewMysqlGormV2(mysqlDsn dbutils.MysqlDsn, gormCfg *gorm.Config) *gorm.DB {
+	if mysqlGormObj.mysql == nil{
+		mysqlGormObj.mysql = make(map[string]*gorm.DB)
+	}
+	if d := mysqlGormObj.GetMysql(mysqlDsn.Key()); d != nil {
+		return d
+	}
+	if d, err := gorm.Open(mysql.Open(mysqlDsn.ToDsn()), gormCfg); err != nil {
+		fmt.Println("connect mysql error: " + err.Error())
+		return nil
+	} else {
+		return mysqlGormObj.registerMysql(mysqlDsn.Key(), d)
+	}
+
+}
